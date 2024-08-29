@@ -27,7 +27,7 @@ residuals =  y_test - prediction # if model was perfect all would be zeros
 
 from sklearn.metrics import mean_squared_error,mean_absolute_error
 
-MSE = mean_squared_error(y_test,prediction)
+MSE = mean_squared_error(y_test,prediction) #Loss
 MAE = mean_absolute_error(y_test,prediction)
 RMSE = np.sqrt(MSE)
 RMAE = np.sqrt(MAE)
@@ -41,6 +41,8 @@ print(f'This is my RMAE: {RMAE}')
 '''
 
 model.coef_
-#print(f'My model coefficients: {model.coef_}')
+loss = mean_squared_error(y_test,prediction)
+print(f'My model loss is at {loss}')
+print(f'My model coefficients: {model.coef_}')
 coeff_dif = pd.DataFrame(model.coef_,X.columns,columns=['Coefficient'])
 #print(f'The gap between coefficients: {coeff_dif}')
