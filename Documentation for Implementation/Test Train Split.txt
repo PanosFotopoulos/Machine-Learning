@@ -1,14 +1,17 @@
-First thing first, import important libraries
+To begin our machine learning project, we'll start by importing some crucial libraries:
+
  -import pandas as pd
  -import numpy as np
  -import seaborn as sns
  -import matplotlib as plt
+ 
+Next, we'll define our DataFrame from the data:
+df = pd.read_csv('mycsv')
+For a successful machine learning project, it's essential to split our data into training and testing sets. 
+This allows us to train our model on one portion of the data and evaluate its performance on another. 
+Thankfully, the sklearn library provides a handy tool for this:
 
-define you dataframe from your data df = pd.read_csv('mycsv')
-In order to complete a machine learning project, you need a variable to asign your training data and one more variable to asign your prediction data
-for this excactly situation you sklearn library created a tool that split ur dataframe in a percent of ur choice, so.
-
---- modify your train data and your prefict data ---
+--- Splitting the Data into Training and Testing Sets---
 From sklearn.model_selection import train_test_split.   X_train, X_test, y_train, y_test= train_test_split(X,y,test_size=0.3,random_state=101)
 Now, check if u need to drop a column (most likely will be the column you want to predict)
 As we see there are two variables X,y with X_train, X_test, y_train, y_test, so now lets define this variable
@@ -71,3 +74,7 @@ Last step lets evaluate our model
 from sklearn.metrics import mean_squared_error
 
 mean_squared_error(y_test,y_pred)
+
+To recap, we started by splitting our data into 70% training and 30% testing sets.
+We then standardized the training data using a scaler, imported our desired models, and trained them. 
+Finally, we predicted the target variable on the test set and evaluated the model using MSE.
