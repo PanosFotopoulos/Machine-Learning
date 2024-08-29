@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib as plt
 
 
-df = pd.read_csv(r'C:\Users\Panos\Desktop\PythonforMLandDTScience\DATA\Advertising.csv') #apparently r is needed in V.S. code
+df = pd.read_csv(r'C:\Users\Panos\Desktop\PythonforMLandDTScience\DATA\Advertising.csv') 
 
 
 X = df.drop('sales', axis = 1)

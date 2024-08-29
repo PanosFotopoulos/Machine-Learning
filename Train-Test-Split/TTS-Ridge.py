@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib as plt
 
 
-df = pd.read_csv(r'C:\Users\Panos\Desktop\PythonforMLandDTScience\DATA\Advertising.csv') #apparently r is needed in V.S. code
+df = pd.read_csv(r'C:\Users\Panos\Desktop\PythonforMLandDTScience\DATA\Advertising.csv')
 
 df.head()
 
@@ -46,4 +46,4 @@ prediction = model.predict(X_test)
 from sklearn.metrics import mean_squared_error
 
 loss = mean_squared_error(y_test,prediction)
-print(f'this is the model loss: {loss}')
+print(f'For this model the loss is: {loss}')
