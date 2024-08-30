@@ -5,8 +5,8 @@ import seaborn as sns
 
 df = pd.read_csv(r"C:\Users\Panos\Desktop\PythonforMLandDTScience\DATA\AMES_Final_DF.csv")
 
-#df.info()
-#df.head()
+df.info()
+df.head()
 
 
 # Lets separate our data X and y. Im trying to predict SalePrice

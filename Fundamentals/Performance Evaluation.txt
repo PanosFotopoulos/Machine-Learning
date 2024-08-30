@@ -1,0 +1,14 @@
+The two most used function in order to evalute the perfomance of a regression model (Loss) are MSE and magnitude:
+
+Mean Squared Error (MSE):
+Calculate the average of the squares of the difference between the actual values and the predicted values .
+MSE = mean_squared_error(y_test,test_prediction) 
+And its commonly used as a loss function during the training of the models (regression models, Ridge, Lasso, ElasticNet)
+(Heart of the data)
+
+
+Mean Absolute Error (MAE):
+Calcualate the average of the absolute of the difference between the actual values and the predicted values.
+MAE = mean_absolute_error(y_test,prediction)
+And gives more weight to the extremes or outliers in your predictions
+(Outliers of the data)

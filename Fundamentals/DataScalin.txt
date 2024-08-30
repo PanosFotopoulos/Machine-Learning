@@ -1,0 +1,12 @@
+Data scaling can be implemented with StandardScaler from sklearn.preprocessing 
+Lets talk about two fundamentals of statistical measures mean(m) and standard deviation(std)
+
+data = [1, 2, 3, 4, 5]
+
+Mean (μεσος ορος): μ = (1+2+3+4+5)/5 , μ = 3
+
+Standard Deviation (τυπικη αποκληση): σ = sqrt(((μ-1) + (μ-2) + (μ-3) + (μ-4) + (μ-5))/4), σ = 1.2247
+
+Transfroming the data => [0]=(1-3)/1.2247 , [1] = (2-3)/1.2247 , [2] = (3-3)/1.2247 , [3] = (4-3)/1.2247 , [4] = (5-3)/1.2247
+
+transfromed data = [-1.4142, -0.7071, 0, 0.7071, 1.4142]

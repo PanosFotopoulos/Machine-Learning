@@ -1,0 +1,13 @@
+Logistic Regression works by trsanforming a Linear Regression into a classification.
+Classification means that we coding around classes, for example.
+Real Estate:
+        Class1, Houses from 0-200k.
+        Class2, Houses from 200k-500k
+        Class3, Houses from 500k - 1M 
+
+
+
+Sign of Coefficient
+
+        > Possitive β indicates positive relasionship between the features
+        >Negative β indicates negative relasionship between the features 
