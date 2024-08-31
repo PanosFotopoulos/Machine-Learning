@@ -1,0 +1,46 @@
+Regularization is a techinique that prevend your model from overfitting on the data. (you can see the train test split senction for examples)
+How this actually happens?
+You cannot directly apply regularization to a model trained without it; instead, you need to train new models that incorporate the regularization method.
+With Regularization you input a punishing function to the model 
+
+L1 Regularization is also known as Lasso Regularization and when you apply it on any Regression model
+you get Lasso regression, Lasso Regularization is depended with λ value. 
+The stronger the regularization, the harsher the punishment.
+
+E.g. if linear regression with coefficients:
+    βο = 3.99999999 (intercept)
+    β1 = 1.24444444444
+    β2 = 7.11111111
+
+the highest the λ is, the harser the punishment
+
+    Small λ (Weak Regularization)
+ 
+        β1 might become 1.2
+        β2 might become 7
+
+    Moderate λ (Moderate Regularization)
+
+
+        β1 might become 0.8
+        β2 might become 6.5     
+
+    Large λ (Strong Regularization)
+
+        β1 might become 0.3 (can become also 0 )
+        β2 might become 4.5
+
+in Pytgon and sklearn alpha stands for λ, with esp determines the smallest value for alpha (the strenght) in the range of values that LassoCV will consider.
+
+L2 Regularization is also known as Ridge Regularization and when you use it with any regression model
+you get Ridge Regression, that actually adds a penalty proprtional to the squarred magnitude of the coefficient as a punish to the loss,
+
+in python alpha stands for the penalty parameter Ridge(alpha=10)
+
+
+
+
+Elastic Net Regularization
+
+This mehtod combines both L1 & L2 regularizations. Its the balance between L1 and L2. And its very effective on senarios where there are multiple feature
+corralated with eatch other

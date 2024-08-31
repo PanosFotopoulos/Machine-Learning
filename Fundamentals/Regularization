@@ -1,2 +1,0 @@
-Regularization is a technique used to prevent overfitting by adding a penalty to the model's loss function.
-This penalty discourages the model from fitting the noise in the training data by constraining the model coefficients, typically reducing their magnitude.
