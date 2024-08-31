@@ -1,0 +1,16 @@
+Scikit learn is a machine learning library in python. 
+Cores feature:
+    Algorithms
+    Preprocession
+    Model Seletion
+    Dataspets (Iris)
+    Neighbors
+
+Scikit-learn also got a powerfull tool. A powerfull function called Train-Test-Split that provides you, test size, train size,random state, shuffle etc.
+
+Very important tool because you have:
+
+Validation: It provides an unbiased evaluation of your model by testing it on data it hasnt seen during training.
+
+Generalization: Helps to ensure that the model generalizes well to new, unseen data rather than just memorizing the training data.
+By using train_test_split, you can effectively evaluate the performance of your machine learning models and avoid overfitting.
