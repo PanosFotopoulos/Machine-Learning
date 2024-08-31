@@ -40,7 +40,6 @@ model.fit(X_train,y_train)
 
 prediction = model.predict(X_test)
 
-
 # valid the loss
 
 from sklearn.metrics import mean_squared_error
