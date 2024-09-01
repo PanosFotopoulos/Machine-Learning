@@ -1,0 +1,18 @@
+Classification is a method in machine learning and AI based on classes or categorise. The model is trained on a label dataset meaning each example in dataset
+is associated with a knows class label
+
+Key concepts of Classification:
+
+    Classes or Categorise: For example Spam, not Spam output. These are the possible labels that the model can assign to an input.
+    Input Data: Maybe the data needs to be classfied 
+    Output: The result of the Classification process is a predicted class label for each instance of input data
+    Training Data: To build a classification model, you need a dataset where each example is already labeled with the correct class.
+        The model learns from this data, identifying patterns that help it predict the class labels of new, unseen examples.    
+
+Types of Classification:
+    Binary Classification: This invoves two classes. 
+        E.g. True False, 1/2, yes no.
+    Multyclass Classification: There are three categorise of an article "Sports", "Politics", "Economy". 
+        An article can belong to only one class 
+    Multilabel Classification: There are three categorise of an article "Sports", "Politics", "Economy". 
+        An article can belong to more than one class simultaneously

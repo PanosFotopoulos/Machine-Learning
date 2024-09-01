@@ -1,0 +1,28 @@
+To standardize a dataset means to scale all of the values in the dataset such that the mean value is 0 and the standard deviation is 1.
+This can be achived with the library from sklearn called StandarScaler from sklearn.preprocessing
+
+Standardization helps to ensure that each feature contributes equally to the model.
+from sklearn.preprocessing import StandarScaler 
+Mean = 0: The average value of each feature will be zero
+Variance = 1: The standard deviation of each feature will be one, meaning the data will be spread out in a standard normal distribution.
+
+Mean Calculation(.mean()):
+
+Mean =  (-1.34164079 + ( -  0.4472136 ) + 0.4472136 + 1.34164079) / 4 = 0, The mean is 0, as expected.
+
+Standard Deviation Calculation(.std()):
+
+Variance = (-1.34164079-0)^2 + (-0.4472136-0)^2 + (0.4472136-0)^2 + (1.34164079-0)^2 / 4 = 1, Taking the square root of the variance gives us the standard deviation, which is 1.
+
+Now that is very clear what mean and std is and how scaler works lets scale our data.
+
+First step. Allow the scaler to learn how to scale the data properly with .fit
+
+scaler.fit(X_train) In this step computes the mean and the standard deviation of each feature in X_train, Only fit on training data to prevend data leakage (SOS)
+ 
+Second step. Transfrom our data
+
+X_train = scaler.transfrom(X_train)
+X_test = scaler.transform(X_test) 
+
+
