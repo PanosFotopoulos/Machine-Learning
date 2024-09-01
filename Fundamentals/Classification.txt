@@ -16,3 +16,42 @@ Types of Classification:
         An article can belong to only one class 
     Multilabel Classification: There are three categorise of an article "Sports", "Politics", "Economy". 
         An article can belong to more than one class simultaneously
+
+Accuracy Score is used to evaluate the prediction on a Classification model
+
+from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
+evaluation = accuracy_score(y_test,y_pred) *there is an Accuracy paradox so i should plot things with confusion matrix
+confusion_matrix(y_test,y_pred)
+
+Prediction_Score and Recall_score are two function that are used to evalute the perfomance of the classifciation model,
+specially focusing on how well the model ifentifies positive instaces.
+
+Prediction_Score:
+
+Precision measures the accuracy of the positive predictions made by the model. 
+It answers the question: Of all the instances that were predicted as positive, how many were actually positive?
+
+and its calulated by:
+
+        Precision = TP / ( TP + FP)
+            TP (True Positives) is the number of correct positive predictions.
+            FP (False Positives) is the number of incorrect positive predictions
+
+Recall Score
+Recall (also known as Sensitivity or True Positive Rate) measures how well the model identifies actual positive instances.
+It answers the question: "Of all the actual positive instances, how many did the model correctly identify
+
+and this calulated by:
+
+        Recall = TP / ( TP + FN)
+            TP (True Positives) is the number of correct positive predictions.
+            FN (False Negatives) is the number of actual positives that the model missed.
+
+
+Printing the chance to what class your instance belong to (Prediction)
+In_what_class_do_this_belong = log_model.predict_proba(scaled_X_test)[0]
+print(f'The probability "%" to be class 0 or 1 is {In_what_class_do_this_belong}')
+
+Printing you excacly the class actually belongs to
+what_class_actualy_belongs_at = y_test[0]
+print(f'Actually belongs at class: {what_class_actualy_belongs_at}')
