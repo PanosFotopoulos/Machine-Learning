@@ -1,3 +1,5 @@
+Regression Models
+
 The two most used function in order to evalute the perfomance of a regression model (Loss) are MSE and magnitude:
 
 Mean Squared Error (MSE):
@@ -12,3 +14,14 @@ Calcualate the average of the absolute of the difference between the actual valu
 MAE = mean_absolute_error(y_test,prediction)
 And gives more weight to the extremes or outliers in your predictions
 (Outliers of the data)
+
+
+Classification Models
+
+Accuracy Score is used to evaluate the prediction on a Classification model
+
+from sklearn.metrics import accuracy_score,confusion_matrix,classification_report
+evaluation = accuracy_score(y_test,y_pred) *there is an Accuracy paradox so i should plot things with confusion matrix
+confusion_matrix(y_test,y_pred)
+
+
