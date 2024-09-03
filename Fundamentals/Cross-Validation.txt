@@ -1,77 +1,153 @@
-So the idea behind cross validation is to train your model better and better.
+So the idea behind cross validation is to train your model better and better. Although cross validation is very importantm
+can be achived with two ways
+1. Applying Cross Validation isolated (not integrated with the model)
+2. Applying Cross Validation with the model (integrated)
+
 How is it achived?
 
-Lets say we have a datase like this by train test split
+First thing first cross validation is a tool that you can use in every type of model BUT! the implementation is different.
+Actually the major difference is on the variable scoring, but we will deep dive latter on.
+Lets observe what is happening to the database regardless the type of cross validation.
 
---------------------------------------------------------------------|------------------------
+--------------------------------------------------------------------|-------------------------
 |                                                                   |                        |
+|                         TRAIN DATASET                             |      TEST DATASET      |
 |                                                                   |                        |
-|                                                                   |                        |
---------------------------------------------------------------------|------------------------
+--------------------------------------------------------------------|-------------------------
 
-<-------------------------------Train------------------------------> <---------TEST---------->
+<-----------------------------Train 70%-----------------------------><--------TEST 30%-------->
 
 Cross validation got a specific metric called cv, this parameter stands for how many fold you will make in order to train your model
 lets see
 
 cv = 5
-----------------|-----------------|------------|-------------|------------|------------------------
+----------------|-----------------|------------|-------------|------------|-------------------------
 |               |                 |            |             |            |                        |
-| folder  = 1   | folder  = 2     | folder  = 3|folder  = 4  |folder  = 5 |                        |
+| folder  = 1   | folder  = 2     | folder  = 3|folder  = 4  |folder  = 5 |      TEST DATASET      |
 |               |                 |            |             |            |                        |
-----------------|-----------------|------------|-------------|------------|------------------------
+----------------|-----------------|------------|-------------|------------|-------------------------
 
-<-------------------------------Train------------------------------>      <---------TEST---------->
+<-----------------------------Train 70%-----------------------------><--------TEST 30%-------->
 
 
 This iteration will happend 5 times
 
-so now will use to train folder - 1 
+so now will use to train (folder=cv - 1) 
 cv = 1 
-----------------|-----------------|------------|-------------|------------|------------------------
-|               |                 |            |             |            |                        |
-|    TESTING    | folder  = 2     | folder  = 3|   folder=4  |folder  = 5 |                        |
-|      DATA     |                 |            |             |            |                        |
-----------------|-----------------|------------|-------------|------------|------------------------
-<-------------------------------Train------------------------------>      <---------TEST---------->
+----------------|-----------------|------------|-------------|-------------|-------------------------
+|               |                 |            |             |             |                        |
+|    TESTING    | folder  = 2     | folder  = 3|   folder=4  |folder  = 5  |      TEST DATASET      |
+|      DATA     |                 |            |             |             |                        |
+----------------|-----------------|------------|-------------|-------------|-------------------------
+<----------------------------------Train 70%-------------------------------><--------TEST 30%-------->
 
 cv=2
-----------------|-----------------|------------|-------------|------------|------------------------
-|               |                 |            |             |            |                        |
-| folder  = 1   |    TESTING      | folder  = 3|   folder=4   |folder  = 5 |                       |
-|               |      DATA       |            |             |            |                        |
-----------------|-----------------|------------|-------------|------------|------------------------
-<-------------------------------Train------------------------------>      <---------TEST---------->
+----------------|-----------------|------------|-------------|-------------|-------------------------
+|               |                 |            |             |             |                        |
+| folder  = 1   |    TESTING      | folder  = 3|   folder=4   |folder  = 5 |      TEST DATASET      |
+|               |      DATA       |            |             |             |                        |
+----------------|-----------------|------------|-------------|-------------|-------------------------
+<----------------------------------Train 70%-------------------------------><--------TEST 30%-------->
 
 cv=3
-----------------|-----------------|------------|-------------|------------|------------------------
-|               |                 |            |             |            |                        |
-|    folder = 1 | folder  = 2     |  TESTING   |   folder=4  |folder  = 5 |                        |
-|               |                 |   DATA     |             |            |                        |
-----------------|-----------------|------------|-------------|------------|------------------------
-<-------------------------------Train------------------------------>      <---------TEST---------->
+----------------|-----------------|------------|-------------|------------ |-------------------------
+|               |                 |            |             |             |                        |
+|    folder = 1 | folder  = 2     |  TESTING   |   folder=4  |folder  = 5  |      TEST DATASET      |
+|               |                 |   DATA     |             |             |                        |
+----------------|-----------------|------------|-------------|-------------|-------------------------
+<----------------------------------Train 70%-------------------------------><--------TEST 30%-------->
 
 cv=4
-----------------|-----------------|------------|-------------|------------|------------------------
-|               |                 |            |             |            |                        |
-|    folder = 1 | folder  = 2     | folder  = 3|   TESTING   |folder  = 5 |                        |
-|               |                 |            |     DATA    |            |                        |
-----------------|-----------------|------------|-------------|------------|------------------------
-<-------------------------------Train------------------------------>      <---------TEST---------->
+----------------|-----------------|------------|-------------|-------------|-------------------------
+|               |                 |            |             |             |                        |
+|    folder = 1 | folder  = 2     | folder  = 3|   TESTING   |folder  = 5  |      TEST DATASET      |
+|               |                 |            |     DATA    |             |                        |
+----------------|-----------------|------------|-------------|-------------|-------------------------
+<----------------------------------Train 70%-------------------------------><--------TEST 30%-------->
 
 cv=5
-----------------|-----------------|------------|-------------|------------|------------------------
-|               |                 |            |             |            |                        |
-|   folder = 1  | folder  = 2     | folder  = 3|   folder=4  |  TESTING   |                        |
-|               |                 |            |             |   DATA     |                        |
-----------------|-----------------|------------|-------------|------------|------------------------
+----------------|-----------------|------------|-------------|-------------|-------------------------
+|               |                 |            |             |             |                        |
+|   folder = 1  | folder  = 2     | folder  = 3|   folder=4  |   TESTING   |      TEST DATASET      |
+|               |                 |            |             |    DATA     |                        |
+----------------|-----------------|------------|-------------|-------------|-------------------------
 
-<-------------------------------Train------------------------------>      <---------TEST---------->
+<----------------------------------Train 70%-------------------------------><--------TEST 30%-------->
+
+This is the main idea behind the cross validation tool, now lets deep dive and develop how cross validation
+is actually getting achived in each type of model 
+
+Not Intergrated Cross Validation
+
+1. Regression
+How you can actually implement this:
+
+# Creating an isntance of Regression model 
+from sklearn.linear_model import LinearRegression (after scaling if needed the data)
+mymodel = LinearRegression() (fitting the data)
+
+from sklearn.model_selection import cross_validate
+
+Calling the function cross_validate, the requirement parameters are, of course the model we use, our training data,
+our cross validation splitting data *cv=5, scoring metrics (Scikit-learn Documentation).
+
+#Cross_Validate: Use when you want to evaluate multiple metrics at once
+cross_validate_scores = cross_validate(mymodel, scaled_X_train, y_train, cv =5,
+                                scoring=['accuracy', 'precision', 'recall', 'f1'])
 
 from sklearn.model_selection import cross_val_score
 
-here you can see the score of each validaton and depends on the number you can understand if your model trained well
+#Cross_val_score: Use when you want to evaluate a single metric
+cross_val_scores =c cross_val_score(mymodel, scaled_X_train, y_train, cv =5,
+                                scoring='balanced_accuracy')
 
-model_score = cross_val_score(mymodel, transformed_X_train, y_train)
-print(f'My model train with this score: {model_score}')
-will get 5 outputs if they are close to 100 then my model is well trained.
+Here you can see the score of each metric and decide if your model is well trained or not. 
+Lets break down each metric
+    Very good trained 75-80%, Well trained 85-90%, Excellent 90%+
+    Test Accuracy: Indicates how many predictions were correct, out of all predictions 
+    Test Precision: Indicates the proportion of true positives among all the predicted positives
+    Test Recall:  Indicates the proportion of true positives that were correctly identified out of all actual positives.
+    Test f1: A balance between precision and recall.
+
+So now depends on what you call and what you want to achive, you can easily print any of the the metrics above
+balanced_accuracy_score = cross_val_scores(mymodel, transformed_X_train, y_train, scoring='balanced_accuracy')
+print(f'My balanced accuracy score is: {balanced_accuracy_score}')
+This will print 5 outputs depending on the cv assignment, if this outcomes are close to 1 then the model is well trained.
+
+
+2. CLASSIFICATION
+How you can actually implement this:
+
+# Creating an isntance of classification model 
+from sklearn.linear_model import LogisticRegression (after scaling if needed the data)
+mymodel = LogisticRegression() (fitting the data)
+
+from sklearn.model_selection import cross_validate
+
+Calling the function cross_validate, the requirement parameters are, of course the model we use, our training data,
+our cross validation splitting data *cv=5, scoring metrics (Scikit-learn Documentation), and return_train_score that 
+
+#Cross_Validate: Use when you want to evaluate multiple metrics at once
+cross_validate_scores = cross_validate(mymodel, scaled_X_train, y_train, cv =5,
+                                scoring=['accuracy', 'precision', 'recall', 'f1'])
+
+from sklearn.model_selection import cross_val_score
+
+#Cross_val_score: Use when you want to evaluate a single metric
+cross_val_scores =c cross_val_score(mymodel, scaled_X_train, y_train, cv =5,
+                                scoring='balanced_accuracy')
+
+Here you can see the score of each metric and decide if your model is well trained or not. 
+Lets break down each metric
+    Very good trained 75-80%, Well trained 85-90%, Excellent 90%+
+    Test Accuracy: Indicates how many predictions were correct, out of all predictions 
+    Test Precision: Indicates the proportion of true positives among all the predicted positives
+    Test Recall:  Indicates the proportion of true positives that were correctly identified out of all actual positives.
+    Test f1: A balance between precision and recall.
+
+So now depends on what you call and what you want to achive, you can easily print any of the the metrics above
+balanced_accuracy_score = cross_val_scores(mymodel, transformed_X_train, y_train, scoring='balanced_accuracy')
+print(f'My balanced accuracy score is: {balanced_accuracy_score}')
+This will print 5 outputs depending on the cv assignment, if this outcomes are close to 1 then the model is well trained.
+
+Intergrated
