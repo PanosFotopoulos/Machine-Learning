@@ -30,7 +30,7 @@ bad_model = Ridge(alpha=100)
 
 bad_scores = cross_validate(bad_model,X_train,y_train,scoring=['neg_mean_squared_error','neg_mean_absolute_error'],cv=10)
 bad_scores = pd.DataFrame(bad_scores)
-#scores.mean()
+#bad_scores.mean()
 
 #Improve the model
 

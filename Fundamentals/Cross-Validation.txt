@@ -1,5 +1,8 @@
-So the idea behind cross validation is to train your model better and better. Although cross validation is very importantm
-can be achived with two ways
+
+Introduction to Cross-Validation:
+
+So the idea behind cross validation is to evaluate the model and if needed to train it better by adjusting some hyperparameters(like C). 
+Although cross validation is very important can be achived with two ways
 1. Applying Cross Validation isolated (not integrated with the model)
 2. Applying Cross Validation with the model (integrated)
 
@@ -83,37 +86,36 @@ Not Intergrated Cross Validation
 How you can actually implement this:
 
 # Creating an isntance of Regression model 
-from sklearn.linear_model import LinearRegression (after scaling if needed the data)
-mymodel = LinearRegression() (fitting the data)
+from sklearn.linear_model import Ridge (after scaling if needed the data)
+mymodel = Ridge() (fitting the data)
 
 from sklearn.model_selection import cross_validate
 
 Calling the function cross_validate, the requirement parameters are, of course the model we use, our training data,
 our cross validation splitting data *cv=5, scoring metrics (Scikit-learn Documentation).
 
-#Cross_Validate: Use when you want to evaluate multiple metrics at once
+#Cross_Validate: Use when you want to evaluate your hyperparameters in multiple metrics at once
 cross_validate_scores = cross_validate(mymodel, scaled_X_train, y_train, cv =5,
-                                scoring=['accuracy', 'precision', 'recall', 'f1'])
+                                scoring=['neg_mean_absolute_error', 'neg_mean_squared_error', 'r2']) 
 
 from sklearn.model_selection import cross_val_score
 
-#Cross_val_score: Use when you want to evaluate a single metric
-cross_val_scores =c cross_val_score(mymodel, scaled_X_train, y_train, cv =5,
-                                scoring='balanced_accuracy')
+#Cross_val_score: Use when you want to evaluate your hyperparameters a single metric
+cross_val_scores = cross_val_score(mymodel, scaled_X_train, y_train, cv =5,
+                                scoring='r2')
 
 Here you can see the score of each metric and decide if your model is well trained or not. 
 Lets break down each metric
     Very good trained 75-80%, Well trained 85-90%, Excellent 90%+
-    Test Accuracy: Indicates how many predictions were correct, out of all predictions 
-    Test Precision: Indicates the proportion of true positives among all the predicted positives
-    Test Recall:  Indicates the proportion of true positives that were correctly identified out of all actual positives.
-    Test f1: A balance between precision and recall.
+    MAE: Measures average error in prediction.
+    MSE: Penalizes large errors by squaring them, so its sensitive to outliers.
+    RMSE: Similar to MSE but in the same units as the target variable.
+    R²: Tells how much of the variance in the target variable is explained by the model (closer to 1 is better).
 
 So now depends on what you call and what you want to achive, you can easily print any of the the metrics above
 balanced_accuracy_score = cross_val_scores(mymodel, transformed_X_train, y_train, scoring='balanced_accuracy')
 print(f'My balanced accuracy score is: {balanced_accuracy_score}')
 This will print 5 outputs depending on the cv assignment, if this outcomes are close to 1 then the model is well trained.
-
 
 2. CLASSIFICATION
 How you can actually implement this:
@@ -127,13 +129,13 @@ from sklearn.model_selection import cross_validate
 Calling the function cross_validate, the requirement parameters are, of course the model we use, our training data,
 our cross validation splitting data *cv=5, scoring metrics (Scikit-learn Documentation), and return_train_score that 
 
-#Cross_Validate: Use when you want to evaluate multiple metrics at once
+#Cross_Validate: Use when you want to evaluate your hyperparameters multiple metrics at once
 cross_validate_scores = cross_validate(mymodel, scaled_X_train, y_train, cv =5,
                                 scoring=['accuracy', 'precision', 'recall', 'f1'])
 
 from sklearn.model_selection import cross_val_score
 
-#Cross_val_score: Use when you want to evaluate a single metric
+#Cross_val_score: Use when you want to evaluate your hyperparameters on a single metric
 cross_val_scores =c cross_val_score(mymodel, scaled_X_train, y_train, cv =5,
                                 scoring='balanced_accuracy')
 
@@ -150,4 +152,133 @@ balanced_accuracy_score = cross_val_scores(mymodel, transformed_X_train, y_train
 print(f'My balanced accuracy score is: {balanced_accuracy_score}')
 This will print 5 outputs depending on the cv assignment, if this outcomes are close to 1 then the model is well trained.
 
-Intergrated
+
+Summary on the difference between cross_validate and cross_val_score is:
+    cross validation is a method more generic for example when you want to see how your model actually perfamance on some generic metrics
+    of course you can run specific metrics but your model will be always be evaluated around of all the metrics. On the other hand though
+    cross val score is a mehtod that you use when you want to evaluate your model on a very specific metric for example you work on a project
+    that the most important metric to evaluate your model is balanced_accuracy. You run cross_val_score with scoring='balanced_accuracy'
+    and you obverve how much your parameters are off from the specific metric.
+
+Conclution:
+    Cross validation happens to see if you want to adjust ur parameters in a more generic ways
+    Cross_val_score happens when you want to adjust ur parameter on a very specific scoring
+
+
+
+
+Since now validation is clear and we know how off our paramters are from a list of metrics or a specific one its time to deep dive on the next
+step that is tune our parameters regarding the cross validation or cross_val_score results
+
+Basic examples for hyperparameters are regression 'alpha' and classification 'C'
+**REMINDER** 
+
+We trying to tune our model parameters to eliminate as much as we can our losses from cross_val_score/cross_validate
+
+
+1.Regression
+from sklearn.linear_model import Ridge
+
+model = Ridge(alpha=1)
+scores = cross_val_score(model, X_train, y_train, cv=5, scoring='r2')
+
+the issue here is that for alpha = 1 we might dont get the desire result and need to modify it again 
+
+model2 = Ridge(alpha=10)
+scores = cross_val_score(model, X_train, y_train, cv=5, scoring='r2')
+
+same issue. In order to solve this we can loop with a lift of alpha values 
+
+
+# Define a list of alpha values to test
+alpha_values = [0.1, 1, 10, 100, 1000]
+
+ X_train, y_train = ...
+
+for alpha in alpha_values:
+    # Create a Ridge regression model with the current alpha
+    model = Ridge(alpha=alpha)
+    
+    # Evaluate the model using cross-validation
+    scores = cross_val_score(model, X_train, y_train, cv=5, scoring='r2')
+
+This looks a bit unprofessional and not very effective way. However lets meet GridSearchCV an optimized process of finding
+the best hyperparameters, witch can save a lot of time, be way more efficient and reduce the errors  compared to manual tuning
+
+from sklearn.model_selection import GridSearchCV
+from sklearn.linear_model import Ridge
+
+# Define the parameter grid
+param_grid = {'alpha': [0.1, 1, 10, 100, 1000]}
+
+# Initialize GridSearchCV
+grid_search = GridSearchCV(Ridge(), param_grid, cv=5, scoring='r2')
+
+and we fit on our data 
+
+grid_search.fit(X_train, y_train)
+
+And now we successfully used GridSearchCV to tune the hyperparameters of a Ridge regression model 
+specifically the alpha parameter in this case.
+
+give you the option to define ur hyperparameters in a list of values
+
+2.Classification
+
+from sklearn.model_selection import GridSearchCV
+from sklearn.linear_model import Ridge
+
+same concept as regression, main aim is to tune hyperparameter E.g 'C'
+
+insteed of manual tuning 'C' and running a loop for candidate valid values we use again GridSearchCV
+defining the grid parameter in a dictionary {'C': [0.01, 0.1, 1, 10, 100]}
+
+param_grid = {'C': [0.01, 0.1, 1, 10, 100], 'solver': ['liblinear']}
+
+then we initialize GridSearchCV
+
+grid_search = GridSearchCV(Ridge(), param_grid, cv=5, scoring='r2')
+
+and we fit on our data 
+
+grid_search.fit(X_train, y_train)
+
+
+Lets recall what we did.
+
+We started with a model (no matter what regression or classfication) we train the model to our data (transformed or not)
+we evaluate ether on one metric or more than one and the result wasnt what we wanted.
+we run a GridSearchCV for specific values and we train our new model in the repsetives values(grid_search = GridSearchCV(Ridge(),
+                                                                                                param_grid, cv=5, scoring='r2')
+
+we call from our model grid_search.best_params_['alpha'/'C'], to detect witch hyperparameter is the most efficent and fir it to our main model
+
+
+Last thing to deep dive is solver.
+
+Solvers are algorithms used to optimize the objective function in various machine learning models and their impact can differ 
+between regression and classification
+
+In regression:
+        Minimize the error between predicted values and actual values, such as Mean Squared Error (MSE) in linear regression.
+        with most common solvers:
+                Gradient Descent: Iteratively adjusts parameters by moving in the direction of the steepest descent of the cost function.
+                                  Suitable for large datasets.
+                Normal Equation: Computes parameters directly by solving a closed-form equation. Works well for small datasets.
+
+                Stochastic Gradient Descent (SGD): Updates parameters using a subset of the data (mini-batch) 
+                                                   suitable for very large datasets.
+
+
+In Classfication:
+        Minimize the classification error or maximize the likelihood of correct class predictions,
+        such as using cross-entropy loss in logistic regression.
+        with most common solvers:
+                Liblinear: Uses a coordinate descent algorithm and is effective for small to medium-sized datasets. 
+                           Supports L1 and L2 regularization.
+                Newton-cg: Uses Newtons method and is effective for larger datasets. 
+                           Suitable for problems where the cost function is smooth.
+                Lbfgs: An optimization algorithm that is generally efficient for large datasets. 
+                       It is a quasi-Newton method that approximates the Hessian matrix.
+                Saga: An extension of SGD that supports both L1 and L2 regularization and is efficient for large datasets, 
+                      especially with sparse data.
