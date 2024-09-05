@@ -28,3 +28,10 @@ model.fit(scaled_X_train,y_train)
 print ('Best perfoming C: ', model.C_)
 print ('My model parameters: ', model.get_params())
 print ('My Model Coefficents: ',model.coef_)
+
+patient = [[ 54. ,   1. ,   0. , 122. , 286. ,   0. ,   0. , 116. ,   1. ,
+          3.2,   1. ,   2. ,   2. ]]
+
+actual_pred = model.predict(patient)
+print(actual_pred)
+# so patinet belongs to class 0
