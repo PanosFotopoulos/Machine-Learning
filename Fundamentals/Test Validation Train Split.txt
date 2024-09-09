@@ -1,0 +1,55 @@
+Introduction to Test Validation Train Split:
+
+So the idea behind Test Validation Train Split is, if you really want a truly fair and final set of perfomance metrics, we should get this metrics from final test.
+With this way we dont allow ourselves to adjust on. 
+Although cross validation is very important can be achived with two ways
+1. Applying Cross Validation isolated (not integrated with the model)
+2. Applying Cross Validation with the model (integrated)
+
+How is it achived?
+
+First thing first cross validation is a tool that you can use in every type of model BUT! the implementation is different.
+Actually the major difference is on the variable scoring, but we will deep dive latter on.
+Lets observe what is happening to the database regardless the type of cross validation.
+
+-------------------------------------------------------|--------------------------------------
+|                                                      |                                     |
+|                         TRAIN DATASET                |          TEST DATASET               |
+|                                                      |                                     |
+-------------------------------------------------------|--------------------------------------
+
+<-----------------------------Train 70%-----------------------------><--------TEST 30%-------->
+
+Cross validation got a specific metric called cv, this parameter stands for how many fold you will make in order to train your model
+lets see
+
+
+-------------------------------------------------------|-----------------|--------------------
+|                                                      |                 |                   |
+|                          TRAIN DATASET               |   Validation    |   TEST DATASET    |
+|                                                      |                 |                   |
+------------------------------------------------------ |-----------------|--------------------
+
+<-----------------------------Train 70%---------------><-----Val 15%-----><-----TEST 15%------>
+
+
+At this moment we train our model on the train set, then we validate the perfomance on the validation set, we get some error metric
+adjust the hyperparameter.
+-------------------------------------------------------|-----------------|
+|                                                      |                 |
+|                      TRAIN DATASET                   |   Validation    |
+|                                                      |                 |
+------------------------------------------------------ |-----------------|
+
+<-----------------------------Train 70%---------------><-----Val 15%----->
+
+Once we are satisfated with this, we do our final validation test on the test data that we are not alloud to adjust on
+
+
+-------------------------------------------------------|-----------------|                                   ------------------         
+|                                                      |                 |                                  |                  |         This is how the model will perform on  
+|                          TRAIN DATASET               |   Validation    |        Final Error --->          |  TEST DATASET    |            truly unseen and unadjusted data
+|                                                      |                 |        of the model              |                  |
+------------------------------------------------------ |-----------------|                                   ------------------
+
+<-----------------------------Train 70%---------------><-----Val 15%----->                                  <-----TEST 15%------>
