@@ -54,10 +54,25 @@ print(f'For this model the loss is: {loss2}')
 
 final_eval_pred = model2.predict(X_test)
 
-# for seek of progression lets say its fine and we are satsfide
 final_loss = mean_squared_error(y_test,final_eval_pred)
 print(f'For my final model the loss is: {final_loss}')
 
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {'alpha': [0.01, 0.1, 1, 10, 100]}
+
+ridge = Ridge()
+
+grid_search = GridSearchCV(estimator=ridge, param_grid=param_grid, cv=5, scoring='neg_mean_squared_error')
+
+grid_search.fit(X_train, y_train)
+
+print(f'Best alpha: {grid_search.best_params_}')
+
+best_ridge = grid_search.best_estimator_
+y_eval_pred_best = best_ridge.predict(X_eval)
+best_loss = mean_squared_error(y_eval, y_eval_pred_best)
+print(f'Best model evaluation loss: {best_loss}')
 
 
 

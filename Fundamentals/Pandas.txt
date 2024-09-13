@@ -1,0 +1,121 @@
+Pandas is a very powerfull library in python. Take place is data processing works mostlikely (at least for us) with dataframes and gives you 
+acess to manipulate the data the way you need
+
+To get a 1st look with pandas  (panda Series and DataFrames)       
+
+import pandas as pd
+
+Seiries is one-dimensional labaled array that can hold any data type
+
+s = pd.Series([1, 2, 3, 4])
+
+
+DataFrames is a Two-dimensional labeled data structure with columns that can hold different types of data
+
+df = pd.DataFrame({
+    'A': [1, 2, 3],
+    'B': [4, 5, 6]})
+
+
+
+
+Lets see some of the most usefull tools in Pandas
+
+1) Data import
+
+The 1st step of everything, in order to do anything that has to do with data processing or training model 
+we need datas, most common form of datas are csv.
+The way to import the data is:
+
+df = pd.read_csv('file.csv')  
+df = pd.read_excel('file.xlsx') 
+df = pd.read_json('file.json') 
+
+2) Data Manipulation
+
+
+-Access a column
+print(df['A'])  
+
+-Search a value by integers as position
+print(df.loc[0,1])  
+
+-Search a value by the 3rd row of the labeled column named "Car"
+print(df.iloc[0,'Car'])  
+
+
+-Drop the rows where A values are equal or less of 1
+filtered_df = df[df['A'] > 1] 
+
+-Add/Drop new column with the respective values
+df['C'] = [7, 8, 9]  
+df = df.drop('C', axis=1) 
+
+         -- Very Important --
+
+-When a place is emplty on a dataframe got the value NaN that can cause us a lot of issues for example on model training
+for that reason without (SOS) causing any miss information that can lead us to wrong results you can 
+replace this non with 0 (for example toilets on 2nd floor, the value could be Nan isteed of 0, this is when
+df.fillna(0) takes place and makes your data still valuable in order to train your model). 
+If though a lot of datas and you can not really understand from the rest data if you could replace the NaN with 0
+you can drop that rows complitly
+df = df.fillna(0)  # Replace NaN with 0
+df = df.dropna()  # Drop rows with NaN values
+
+3) Group By:
+
+Very usefull tool for data structure,
+
+grouped = df.groupby('A')
+
+   B  C   D
+A          
+1  4  7  10
+2  5  8  11
+3  6  9  12
+
+You can also use .sum() if only dublicated values exist
+
+data = {
+    'A': [1, 2, 3, 1],
+    'B': [4, 5, 6, 4],
+    'C': [7, 8, 9, 7],
+    'D': [10, 11, 12, 10]
+}
+df = pd.DataFrame(data)
+grouped = df.groupby('A').sum()
+print(grouped)
+
+    B   C   D
+A             
+1   8  14  20
+2   5   8  11
+3   6   9  12
+
+
+4) Same as numpy you have access to aggregation function ( mean() ), we will use this way more than numpy because
+understading the data is a very imporant process.
+
+pdf.mean()
+
+
+5) Merging and Joining
+
+-Converting/Merging multiple datafranes into one is something that can actually happend:
+
+concatenated_df = pd.concat([df1, df2])
+merged_df = pd.merge(df1, df2, on='key')
+
+6) Data modify
+
+-Rename Columns:
+
+df = df.rename(columns={'A': 'new_A', 'B': 'new_B'})
+
+-String Operations:
+
+df['A'] = df['A'].str.upper()
+
+And many more others
+
+This is a Documentation for pandas with the most common functions.

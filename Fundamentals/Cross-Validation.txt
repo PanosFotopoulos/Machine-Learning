@@ -282,3 +282,8 @@ In Classfication:
                        It is a quasi-Newton method that approximates the Hessian matrix.
                 Saga: An extension of SGD that supports both L1 and L2 regularization and is efficient for large datasets, 
                       especially with sparse data.
+
+
+Usage
+
+-Cross-validation is more robust and is typically preferred when you want to maximize the use of data and reduce the risk of overfitting to a specific train-validation split.
