@@ -1,0 +1,60 @@
+A very powerfull Python Library 
+Provides numerical computing, multi-dimensional arrays and metrics and a lot of math functions to operate on this arrays
+
+To get a 1st look with arrays and matrix (row, columns)          
+
+
+arr = np.array([1, 2, 3, 4])
+
+print(arr) -> Output: [1 2 3 4]
+
+
+matrix = np.array([[1, 2, 3], [4, 5, 6]])
+
+print(matrix) -> Output: [1, 2, 3]
+                         [4, 5, 6]
+
+
+
+1) A very important function is the array creation and this is a tool that is used a lot to deep learning: 
+
+
+zeros = np.zeros((2, 3)), 2x3 matrix of zeros
+ones = np.ones((3, 2)), 3x2 matrix of ones
+arange = np.arange(0, 10, 2), Array of values from 0 to 10, with step 2
+
+2) There is also a reshape ( i assume that this will be a rare functionality since you use transpose from pandas library, dont forget the 1st touch with the data is on a dataframe not in
+vectors or arrays):
+
+
+matrix = np.array([[1, 2, 3], [4, 5, 6]])
+
+print(matrix) -> Output: [1, 2, 3]
+                         [4, 5, 6]
+
+reshaped_matrix = matrix.reshape(3,2)
+
+print(reshaped_matrix) -> Output: [1, 4]
+                                  [2, 5]
+                                  [3, 6]
+
+
+3) Statical operations:
+
+This also seems rare to use functionalities mostlikely becuase we everything we want to see from data we see when they are on a dataframe. 
+And padnas provide us the same functionality as those and much more to be able to configure the datas the way we want and need.
+
+arr = np.array([1, 2, 3, 4])
+print(np.mean(arr))  # Output: 2.5
+print(np.std(arr))   # Output: 1.118033988749895
+print(np.sum(arr))   # Output: 10
+
+4) Random number generation:
+
+A very usefull function that generate numbers useing the np.random mudule 
+
+
+random_arr = np.random.rand(3, 3) -> Output: 3x3 array of random values between 0 and 1
+random_int = np.random.randint(0, 10, size=(2, 2)) -> Output: 2x2 array of random integers between 0 and 10
+
+This is a Documentation for numpy with the most common functions.

@@ -53,3 +53,15 @@ Once we are satisfated with this, we do our final validation test on the test da
 ------------------------------------------------------ |-----------------|                                   ------------------
 
 <-----------------------------Train 70%---------------><-----Val 15%----->                                  <-----TEST 15%------>
+
+
+
+The rest about the hyperparameter tune is the same as Cross validation
+
+Summary
+
+We split the dataset to 3 parts train-validation-testing
+A very straightforward approach but can be less robust if the dataset is not large enought. Since every validation results are very depended to the data splitting
+
+Usage 
+- Train-Vlaidation split is a faster and simpler, but not reliable for smaller dataset
