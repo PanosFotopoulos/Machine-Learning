@@ -78,3 +78,11 @@ mean_squared_error(y_test,y_pred)
 To recap, we started by splitting our data into 70% training and 30% testing sets.
 We then standardized the training data using a scaler, imported our desired models, and trained them. 
 Finally, we predicted the target variable on the test set and evaluated the model using MSE.
+
+
+As an easy way or reminder of what excacly train test split does, we can split it to 2 Simultaneously steps:
+1st Data processing: Model learn on the data (scaled or not, while y_train always remains with the original scale values)
+2nd Model prediction: The model makes predictions based on these (scaled if) features and compares them to the actual y_train
+
+Result: This two steps provide the model enought information to adjust its paramaters to minimize the difference between
+its predictions and the actual y_train values. This process happens iteratively
