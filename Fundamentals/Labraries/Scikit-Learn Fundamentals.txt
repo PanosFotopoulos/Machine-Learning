@@ -14,3 +14,19 @@ Validation: It provides an unbiased evaluation of your model by testing it on da
 
 Generalization: Helps to ensure that the model generalizes well to new, unseen data rather than just memorizing the training data.
 By using train_test_split, you can effectively evaluate the performance of your machine learning models and avoid overfitting.
+
+Some of the most used modules and functions are 
+
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_validation
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import StandarScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import accuracy_score
+from sklearn.pipeline import Pipeline
+
+Sklearn pipelines are specific machine learning workflows, used to streamline the process of preprocessing data, fitting a model
+and making a prediction. For example a pipeline might include steps for scaling data, transforming and then applying a ML Algorithms
+A very usefull tool but you need to be very carefull. 

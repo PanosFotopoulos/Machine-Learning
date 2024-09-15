@@ -90,6 +90,22 @@ final_pred_ = full_cv_classifier.predict(X_test)
 # his data on gen 1 and gen 2 are:
 new_patient = [[11.8,6.3]]
 
-#the prediction
-print(f'The client belongs in Class: {full_cv_classifier.predict(new_patient)}, reminder class 0 is healty, class 1 is not healty')
-print(f'How much percent sure am i that this user got or not cancer? {full_cv_classifier.predict_proba(new_patient)}')
+
+import matplotlib.pyplot as plt
+
+# Extract the results from GridSearchCV
+results = full_cv_classifier.cv_results_
+
+best_k = full_cv_classifier.best_estimator_.get_params()['knn__n_neighbors']
+print(f'This is my best k: {best_k}')
+
+# Plot the mean test score (accuracy) for each value of k
+plt.figure(figsize=(10, 6))
+plt.plot(k_values, results['mean_test_score'], marker='o', linestyle='-', color='b')
+
+# Adding labels and title
+plt.xlabel('Number of Neighbors (k)')
+plt.ylabel('Mean Cross-Validation Accuracy')
+plt.title('KNN Hyperparameter Tuning (k values)')
+plt.grid(True)
+plt.show()
