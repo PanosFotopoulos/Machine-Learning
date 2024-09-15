@@ -57,13 +57,16 @@ param_grid = {
 
 grid_search = GridSearchCV(LogisticRegression(), param_grid, cv=5, scoring='r2')
 
+
+
 grid_search.fit(scaled_X_train,y_train)
 
 print('Best Parameters: ', grid_search.best_params_)
 print('Best Score: ', grid_search.best_score_)
 print('Best Estimator: ', grid_search.best_estimator_)
 print('Best Index: ', grid_search.best_index_)
-
+best_solver = grid_search.best_estimator_.get_params()['solver']
+print(f'This is the solver: {best_solver}')
 
 #Best Parameters:  {'C': 1, 'solver': 'liblinear'}
 #Best Score:  0.3174137931034485
@@ -73,6 +76,8 @@ print('Best Index: ', grid_search.best_index_)
 # so now we can actually make our best model
 
 best_model = grid_search.best_estimator_
+best_c = grid_search.best_estimator_.get_params()['C']
+print(f'This is my best C: {best_c}')
 y_pred = best_model.predict(scaled_X_test)
 
 from sklearn.metrics import classification_report, accuracy_score
@@ -81,3 +86,22 @@ print("Best Parameters:", grid_search.best_params_)
 print("Best Score on Training Data:", grid_search.best_score_)
 print("Test Accuracy:", accuracy_score(y_test, y_pred))
 print("Classification Report:\n", classification_report(y_test, y_pred))
+
+
+
+results = pd.DataFrame(grid_search.cv_results_)
+
+# Plot the mean test score (accuracy) for each value of C
+plt.figure(figsize=(10, 6))
+for solver in param_grid['solver']:
+    subset = results[results['param_solver'] == solver]
+    plt.plot(subset['param_C'], subset['mean_test_score'], marker='o', linestyle='-', label=f'Solver: {solver}')
+
+# Adding labels and title
+plt.xlabel('Regularization Parameter (C)')
+plt.ylabel('Mean Cross-Validation Accuracy')
+plt.title('Logistic Regression Hyperparameter Tuning (C values)')
+plt.legend(title='Solver')
+plt.grid(True)
+plt.xscale('log')  # Optional: log scale for better visualization if values span orders of magnitude
+plt.show()

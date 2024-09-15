@@ -1,0 +1,2 @@
+import math
+k_values = list(range(1, math.isqrt(len(X_train)) + 1))
